@@ -17,13 +17,14 @@ ver1.2 BoxColliderに対応(既にBoxCollider以外のColliderがついている
 ver1.21 All_Childrenの内部処理を簡略化
 
 -----------------------------------------------------
-〇HandPoseAdder(ver1.1.1)
+〇HandPoseAdder(ver1.2)
 指定したAnimationファイルに特定の手の形にするAnimationキーを追加します。
 Fist, HandOpen, HandGun, FingerPoint, ThumbsUp, RocknRoll, Victoryの手の形に設定可能。
 ver 1.1より自分で用意した手の形も設定可能にしました(CustomHandPose)
 
 1. 追加したいAnimationファイルのInspectorの名前付近で右クリックをすることで表示される「Add Hand pose '**'」(**はポーズ名)を選択すると
 Animationファイルの0と1フレーム目に選択した手の形にするAnimationキーが追加されます。
+「Clear Hand pose」を選択すると手の形が未設定状態のAnimationファイルになります。
 
 CustomHandPoseはUnityのメニューにある「VRCDeveloperTool」の「Hand Pose Adder Setting」を選択すると設定ウィンドウが開きます。
 「Hand Pose Name」と「Hand Pose AnimationClip」に任意の手の形を設定し「Apply Setting」を選択するとFist等と同様の方法で追加できます。
@@ -38,6 +39,7 @@ Animationファイルはgatosyocoraが作成しました。取扱いに関して
 ver1.0 設定可能な手の形にFist, HandOpen, HandGun, FingerPoint, ThumbsUp, RocknRoll, Victoryを追加
 ver1.1 自分で用意した手の形を設定可能に
 ver1.1.1 FingerPointとRocknRollのAnimationファイルの一部値が0,1フレームで異なっていたのを修正
+ver1.2 手の形を未設定状態にする機能を追加
 
 -----------------------------------------------------
 〇HumanoidPoseResetter(ver1.0)

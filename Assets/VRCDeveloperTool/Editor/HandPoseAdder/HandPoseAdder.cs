@@ -4,12 +4,24 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 
-// ver 1.1
+// ver 1.2
 // © 2018-9-24 gatosyocora
 
 public class HandPoseAdder : Editor {
 
     private static string ORIGIN_ANIM_PATH = "Assets/VRCDeveloperTool/Editor/HandPoseAdder/Animations/"; // コピー元となるAnimationファイルが置いてあるディレクトリのパス
+
+    private static readonly string[] HANDNAMES ={"LeftHand.Index", "LeftHand.Little", "LeftHand.Middle", "LeftHand.Ring", "LeftHand.Thumb",
+                                                 "RightHand.Index", "RightHand.Little", "RightHand.Middle", "RightHand.Ring", "RightHand.Thumb"};
+
+    private static readonly string[] HANDPOSTYPES = { "1 Stretched", "2 Stretched", "3 Stretched", "Spread" };
+
+    // None
+    [MenuItem("CONTEXT/Motion/Clear Hand pose", false, 0)]
+    private static void ClearHandAnimationKeys(MenuCommand command)
+    {
+        ClearHandPoseAnimationKeys(command);
+    }
 
     // FINGER POINT
     [MenuItem("CONTEXT/Motion/Add Hand pose 'FINGER POINT'", false, 1)]
@@ -81,6 +93,30 @@ public class HandPoseAdder : Editor {
             // AnimationClipにキーリダクションを行ったAnimationCurveを設定
             AnimationUtility.SetEditorCurve(targetClip, binding, curve);
         }
+    }
+
+    /// <summary>
+    /// 手の形に関するAnimationキーを全て削除する
+    /// </summary>
+    /// <param name="command"></param>
+    public static void ClearHandPoseAnimationKeys(MenuCommand command)
+    {
+        var targetClip = command.context as AnimationClip;
+
+        foreach (var handname in HANDNAMES)
+        {
+            foreach (var handpostype in HANDPOSTYPES)
+            {
+                var binding = new EditorCurveBinding();
+                binding.path = "";
+                binding.type = typeof(Animator);
+                binding.propertyName = handname + "." + handpostype;
+
+                // キーを削除する
+                AnimationUtility.SetEditorCurve(targetClip, binding, null);
+            }
+        }
+
     }
 
 }

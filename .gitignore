@@ -1,3 +1,6 @@
-#VRChatSDKを省く
+﻿#VRChatSDKを省く
 VRCSDK/
 Plugins/VRCSDK
+
+# テストシーンを除く
+Test.unity
