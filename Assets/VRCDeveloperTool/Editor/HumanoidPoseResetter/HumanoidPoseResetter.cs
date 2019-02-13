@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-// ver 1.00
+// ver 1.1
 // © 2019-1-6 gatosyocora
 
 public class HumanoidPoseResetter : EditorWindow {
@@ -35,10 +35,10 @@ public class HumanoidPoseResetter : EditorWindow {
         GetWindow<HumanoidPoseResetter>("HumanoidPose Resetter");
     }
 
-    [MenuItem("GameObject/VRCTool/Reset Pose", false, 20)]
-    public static void ResetPoseFromHierarchy()
+    [MenuItem("GameObject/VRCDeveloperTool/Reset Pose", false, 20)]
+    public static void ResetPoseFromHierarchy(MenuCommand command)
     {
-        var obj = Selection.activeGameObject;
+        var obj = command.context as GameObject;
         ResetPose(obj);
     }
 

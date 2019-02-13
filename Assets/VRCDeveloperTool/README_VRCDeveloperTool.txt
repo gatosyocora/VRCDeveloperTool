@@ -42,18 +42,22 @@ ver1.1.1 FingerPointとRocknRollのAnimationファイルの一部値が0,1フレ
 ver1.2 手の形を未設定状態にする機能を追加
 
 -----------------------------------------------------
-〇HumanoidPoseResetter(ver1.0)
+〇HumanoidPoseResetter(ver1.1)
 アニメーションオーバーライドの設定等で変更されたHumanoidオブジェクトのポーズを元に戻します。
 
+[使い方1]
 Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「VRCDeveloperTool」から以下の機能を持つウィンドウが開けます
-
 1. TargetObjectにポーズをリセットしたいアバターのオブジェクトを設定してください（Animatorコンポーネントがついているオブジェクト）
 2. 「Reset Pose」を選択するとポーズがリセットされます
 Ctrl+Zでポーズを変更前に戻すこともできます
 
+[使い方2]
+1. UnityのHierarchyでポーズをリセットしたいアバターのオブジェクトを右クリックします（Animatorコンポーネントがついているオブジェクト）
+2. VRCDeveloperTool>Reset Pose　を選択するとポーズがリセットされます
 
 ・更新履歴
 ver1.0 Humanoidオブジェクトのポーズをリセットする機能を追加
+ver1.1 Hierarchyでオブジェクトを右クリックでもリセットできるようになりました
 
 -----------------------------------------------------
 〇MeshBoundsSetter(ver1.02)
