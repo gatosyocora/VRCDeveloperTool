@@ -70,16 +70,36 @@ Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「
 デフォルトだとBoundsが(1, 2, 1)のサイズになりますが、「Bounds Scale」を変更することでこのサイズを変更できます
 「Exclusions」に設定したオブジェクトのメッシュのBoundsは変更されないようにできます
 
-・既知のバグ
-アバターによってはデフォルトのBoundsだと巨大なサイズになる
-→BoundsScaleを調整してください
-
 ・更新履歴
 ver1.0 メッシュのBoundsを自動調整する機能を追加。Boundsの大きさの変更や除外の設定を可能に
 ver1.01 原点からずらした場所に位置するアバターの場合, Boundsが大幅にずれる不具合を修正
 ver1.02 一部アバターでデフォルトのBoundsScaleだと巨大なサイズになる不具合を修正
 
 -----------------------------------------------------
+〇ProbeAnchorSetter(ver1.0)
+特定のオブジェクト以下のメッシュすべてのProbeAnchorを自動設定します。
+これによってメッシュごとに影の付き方が違うというのを防げます。
+
+Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「VRCDeveloperTool」から以下の機能を持つウィンドウが開けます
+
+1. TargetObjectにメッシュのProbeAnchorを設定したいアバターのオブジェクトを設定してください（Animatorコンポーネントがついているオブジェクト）
+2. 必要に応じて他の項目を設定して「Set ProbeAnchor」を選択すると各メッシュに自動設定されます。
+
+・設定項目
+Set To SkinnedMeshRenderer : チェックをいれるとSkinnedMeshRendererがついたメッシュを対象とします
+Set To MeshRenderer : チェックをいれるとMeshRendererがついたメッシュを対象とします
+TargetPosition : 光の影響の計算に使う場所を選択します
+	- HEAD : Headボーン位置
+	- CHEST : Chestボーン位置
+	- ROOTOBJECT : TargetObjectに設定したオブジェクト位置
+RendererList :	設定をおこなうメッシュの一覧です。チェックをいれると設定対象にします。
+				「Select」を選択するとそのメッシュがどのオブジェクトのものか確認できます
+
+・更新履歴
+ver1.0　Renderer基準とオブジェクトごとに設定対象を選択できるように。HEAD, CHEST, ROOTOBJECTを基準として設定可能に
+
+-----------------------------------------------------
+
 〇ScaleLimitVisualizer(ver1.0)
 範囲の大きさを視覚化します。
 
@@ -91,6 +111,38 @@ ver1.02 一部アバターでデフォルトのBoundsScaleだと巨大なサイ�
 
 ・更新履歴
 ver1.0　大きさの変更と非ワイヤーフレーム機能を追加
+
+-----------------------------------------------------
+
+〇AnimationPropertyConvertor(ver1.0)
+シェイプキーの名前の変更などによって今まで使ってたAnimationファイルのプロパティ名では使えなくなったときに
+そのプロパティ名を任意のものに置き換えたAnimationファイルを作成します。
+
+Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「VRCDeveloperTool」から以下の機能を持つウィンドウが開けます
+
+[使い方1 (シェイプキーのプロパティの名前を変更したい場合)]
+1. 「Convert BlendShapeName」にチェックを入れます
+2. 「Avatar's SkinnedMeshRenderer」で変更後のシェイプキーをもつメッシュを選択します
+3. 「Pre AnimationsClips」にプロパティ名を変更したいAnimationファイルを設定していきます。
+	「+」「-」で一度に設定するAnimationファイルの数を増減できます。
+	設定すると、AnimationPropertyListにそのAnimationファイルに含まれているプロパティ一覧が表示されます。
+	複数のAnimationファイルが設定されるときに重複するプロパティは1つだけ表示されるようになっています。
+4. prePropertyを見て変更したいプロパティ名をposPropertyNameで選択します。
+	その際にposPrepertyNameには2で設定したメッシュに含まれるシェイプキー一覧が表示されています。
+5. AnimationPropertyListで変更したいプロパティの左側にチェックマークが入っていることを確認します。
+6. AnimClipSaveFolderで変更後のAnimationファイルを保存するフォルダ―を選択します。
+7. 「Convert Property & Save as New File」を選択すると新しいAnimationファイルとして変更後のファイルが作成されます。
+
+[使い方2 (シェイプキーのプロパティ以外も含む場合)]
+1. 使い方1-3をおこないます。
+2. 使い方1-4をおこないます。このときにposPropertyは選択ではなく入力で新しいプロパティ名を設定します。
+3. 使い方1-5～7をおこないます。
+
+〇注意点
+- 生成されるAnimationファイルは変更前と同じ名前になっています。保存先のフォルダが同じの場合、名前のあとに数字がつくようになっています
+
+・更新履歴
+ver1.0 本ツールを作成
 
 -----------------------------------------------------
 
