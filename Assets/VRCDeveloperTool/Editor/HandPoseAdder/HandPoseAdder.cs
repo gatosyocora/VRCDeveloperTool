@@ -31,7 +31,7 @@ public class HandPoseAdder : Editor {
     }
 
     // FIST
-    [MenuItem("CONTEXT/Motion/Add Hand pose 'FIST", false, 2)]
+    [MenuItem("CONTEXT/Motion/Add Hand pose 'FIST'", false, 2)]
     private static void AddFISTAnimationKeys(MenuCommand command)
     {
         AddHandPoseAnimationKeys(command, ORIGIN_ANIM_PATH + "Fist.anim");
@@ -52,7 +52,7 @@ public class HandPoseAdder : Editor {
     }
 
     // ROCKN ROLL
-    [MenuItem("CONTEXT/Motion/Add Hand pose 'ROCKN ROLL'", false, 5)]
+    [MenuItem("CONTEXT/Motion/Add Hand pose 'ROCK N ROLL'", false, 5)]
     private static void AddRRAnimationKeys(MenuCommand command)
     {
         AddHandPoseAnimationKeys(command, ORIGIN_ANIM_PATH + "RocknRoll.anim");
