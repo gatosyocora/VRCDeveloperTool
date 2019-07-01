@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
@@ -11,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace VRCDeveloperTool
 {
 
-    public class AnimationPropertyConvertor : EditorWindow
+    public class AnimationPropertyConverter : EditorWindow
     {
 
         private SkinnedMeshRenderer avatarMesh;
@@ -64,10 +63,10 @@ namespace VRCDeveloperTool
             }
         }
 
-        [MenuItem("VRCDeveloperTool/AnimationPropertyConvertor")]
+        [MenuItem("VRCDeveloperTool/AnimationPropertyConverter")]
         private static void Create()
         {
-            GetWindow<AnimationPropertyConvertor>("AnimationProperty Convertor");
+            GetWindow<AnimationPropertyConverter>("AnimationProperty Converter");
         }
 
         private void OnEnable()
