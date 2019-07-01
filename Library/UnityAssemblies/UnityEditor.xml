@@ -181,6 +181,36 @@
         <para>This Boolean field causes the performance reporting feature in Unity to be enabled if true, or disabled if false.</para>
       </summary>
     </member>
+    <member name="T:UnityEditor.AndroidArchitecture">
+      <summary>
+        <para>Android CPU architecture.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.AndroidArchitecture.All">
+      <summary>
+        <para>All architectures.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.AndroidArchitecture.ARM64">
+      <summary>
+        <para>64-bit ARM architecture.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.AndroidArchitecture.ARMv7">
+      <summary>
+        <para>32-bit ARM architecture.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.AndroidArchitecture.None">
+      <summary>
+        <para>Invalid architecture.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.AndroidArchitecture.X86">
+      <summary>
+        <para>32-bit Intel architecture.</para>
+      </summary>
+    </member>
     <member name="T:UnityEditor.AndroidBlitType">
       <summary>
         <para>Describes the method for how content is displayed on the screen.</para>
@@ -13132,6 +13162,11 @@ This value is the number of screen pixels per point of interface space. For inst
         <para>ETC2 texture decompression fallback on Android devices that don't support ETC2.</para>
       </summary>
     </member>
+    <member name="P:UnityEditor.EditorUserBuildSettings.buildAppBundle">
+      <summary>
+        <para>Set to true to build an Android App Bundle (aab file) instead of an apk. The default value is false.</para>
+      </summary>
+    </member>
     <member name="P:UnityEditor.EditorUserBuildSettings.buildScriptsOnly">
       <summary>
         <para>Is build script only enabled.</para>
@@ -22944,6 +22979,11 @@ See Also: PhysicsVisualizationSettings.</para>
         <para>Android splash screen scale mode.</para>
       </summary>
     </member>
+    <member name="P:UnityEditor.PlayerSettings.Android.targetArchitectures">
+      <summary>
+        <para>A set of CPU architectures for the Android build target.</para>
+      </summary>
+    </member>
     <member name="P:UnityEditor.PlayerSettings.Android.targetDevice">
       <summary>
         <para>Android target device.</para>
@@ -24633,6 +24673,11 @@ Set this property to limit your application to only run on devices that support 
     <member name="P:UnityEditor.PlayerSettings.VROculus.sharedDepthBuffer">
       <summary>
         <para>Enable Shared Depth Buffer support with Oculus.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.PlayerSettings.VROculus.v2Signing">
+      <summary>
+        <para>Enables application signing with the Android Package (APK) Signature Scheme v2.</para>
       </summary>
     </member>
     <member name="T:UnityEditor.PlayerSettings.WebGL">

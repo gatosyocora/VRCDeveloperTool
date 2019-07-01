@@ -1064,7 +1064,7 @@
     </member>
     <member name="P:UnityEngine.EventSystems.PointerEventData.dragging">
       <summary>
-        <para>Is a drag operation currently occuring.</para>
+        <para>Determines whether the user is dragging the mouse or trackpad.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.EventSystems.PointerEventData.enterEventCamera">
@@ -1109,7 +1109,7 @@
     </member>
     <member name="P:UnityEngine.EventSystems.PointerEventData.pointerPressRaycast">
       <summary>
-        <para>RaycastResult associated with the pointer press.</para>
+        <para>Returns the RaycastResult associated with a mouse click, gamepad button press or screen touch.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.EventSystems.PointerEventData.position">
@@ -1659,6 +1659,11 @@
     <member name="M:UnityEngine.EventSystems.UIBehaviour.Start">
       <summary>
         <para>See MonoBehaviour.Start.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Experimental.UI.VertexHelperExtension">
+      <summary>
+        <para>"Add a single vertex to the stream."</para>
       </summary>
     </member>
     <member name="T:UnityEngine.UI.AnimationTriggers">

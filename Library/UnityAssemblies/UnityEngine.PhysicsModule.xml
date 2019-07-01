@@ -112,7 +112,7 @@
     </member>
     <member name="M:UnityEngine.CharacterController.Move(UnityEngine.Vector3)">
       <summary>
-        <para>A more complex move function taking absolute movement deltas.</para>
+        <para>A more complex Move member taking absolute movement deltas.</para>
       </summary>
       <param name="motion"></param>
     </member>
@@ -729,7 +729,7 @@ Sometimes it is not possible to project (for example when the joints form a cycl
     </member>
     <member name="P:UnityEngine.Joint.breakTorque">
       <summary>
-        <para>The torque that needs to be applied for this joint to break.</para>
+        <para>The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Joint.connectedAnchor">
