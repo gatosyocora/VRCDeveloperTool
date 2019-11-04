@@ -5,8 +5,8 @@ using UnityEditor;
 using System.IO;
 using System.Text;
 
-// ver 1.00
-// © 2019 gatosyocora
+// ver 1.0.1
+// Copyright (c) 2019 gatosyocora
 
 namespace VRCDeveloperTool
 {
@@ -26,7 +26,7 @@ namespace VRCDeveloperTool
             posNames = null;
         }
 
-        [MenuItem("VRCDeveloperTool/ShapeKeyName Changer")]
+        [MenuItem("VRCDeveloperTool/Mesh/ShapeKeyName Changer")]
         private static void Create()
         {
             GetWindow<ShapeKeyNameChanger>("ShapeKeyName Changer");
