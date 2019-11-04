@@ -29,7 +29,7 @@ namespace VRCDeveloperTool
             }
         }
 
-        [MenuItem("VRCDeveloperTool/ShapeKey Reorder")]
+        [MenuItem("VRCDeveloperTool/Mesh/ShapeKey Reorder")]
         private static void Open()
         {
             GetWindow<ShapeKeyReorder>("ShapeKey Reorder");
