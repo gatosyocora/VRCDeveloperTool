@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System.Text;
+using System.Linq;
+using System;
 
 // ver 1.1
 // Copyright (c) 2019 gatosyocora
@@ -21,11 +22,39 @@ namespace VRCDeveloperTool
 
         private Vector2 scrollPos = Vector2.zero;
 
+        enum SelectType
+        {
+            Input,
+            Select
+        }
+
+        private SelectType selectTab = SelectType.Input;
+
+        public static GUIContent[] tabToggles
+        {
+            get 
+            {
+                return System.Enum.GetNames(typeof(SelectType)).Select(x => new GUIContent(x)).ToArray();
+            }
+        }
+
+        [Serializable]
+        public class JsonData
+        {
+            public string[] ShapeKeyNames;
+        }
+
+        private string[] selectableNames;
+
+        private int[] selectedIndices;
+
         private void OnEnable()
         {
             shapeKeyNames = null;
             renderer = null;
             posNames = null;
+
+            selectableNames = LoadJsonDataFromResourceFolder("ShapeKeyNameChanger/shapekeynames");
         }
 
         [MenuItem("VRCDeveloperTool/Mesh/ShapeKeyName Changer")]
@@ -51,14 +80,22 @@ namespace VRCDeveloperTool
                     {
                         shapeKeyNames = null;
                         posNames = null;
+                        selectedIndices = null;
                     }
                     else
                     {
                         shapeKeyNames = GetBlendShapeListFromRenderer(renderer);
                         posNames = shapeKeyNames.ToArray();
+                        selectedIndices = new int[shapeKeyNames.Count];
+                        for (int i = 0; i < selectedIndices.Length; i++)
+                        {
+                            selectedIndices[i] = -1;
+                        }
                     }
                 }
             }
+
+            selectTab = (SelectType)GUILayout.Toolbar((int)selectTab, tabToggles, "LargeButton", GUI.ToolbarButtonSize.Fixed);
 
             if (shapeKeyNames != null)
             {
@@ -66,34 +103,70 @@ namespace VRCDeveloperTool
                 {
                     scrollPos = pos.scrollPosition;
 
-                    for (int i = 0; i < shapeKeyNames.Count; i++)
+                    if (selectTab == SelectType.Input)
                     {
-                        using (new EditorGUILayout.HorizontalScope())
+                        for (int i = 0; i < shapeKeyNames.Count; i++)
                         {
-                            using (var toggle = new EditorGUI.ChangeCheckScope())
+                            using (new EditorGUILayout.HorizontalScope())
                             {
-                                EditorGUILayout.Toggle(shapeKeyNames[i] != posNames[i], GUILayout.Width(30));
-                                if (toggle.changed && shapeKeyNames[i] != posNames[i])
+                                using (var toggle = new EditorGUI.ChangeCheckScope())
                                 {
-                                    posNames[i] = shapeKeyNames[i];
+                                    EditorGUILayout.Toggle(shapeKeyNames[i] != posNames[i], GUILayout.Width(30));
+                                    if (toggle.changed && shapeKeyNames[i] != posNames[i])
+                                    {
+                                        posNames[i] = shapeKeyNames[i];
+                                        selectedIndices[i] = -1;
+                                    }
+                                }
+                                posNames[i] = EditorGUILayout.TextField(shapeKeyNames[i], posNames[i]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < shapeKeyNames.Count; i++)
+                        {
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                using (var toggle = new EditorGUI.ChangeCheckScope())
+                                {
+                                    EditorGUILayout.Toggle(shapeKeyNames[i] != posNames[i], GUILayout.Width(30));
+                                    if (toggle.changed && shapeKeyNames[i] != posNames[i])
+                                    {
+                                        posNames[i] = shapeKeyNames[i];
+                                        selectedIndices[i] = -1;
+                                    }
+                                }
+
+                                using (var check = new EditorGUI.ChangeCheckScope())
+                                {
+                                    selectedIndices[i] = EditorGUILayout.Popup(shapeKeyNames[i], selectedIndices[i], selectableNames);
+
+                                    if (check.changed && selectedIndices[i] != -1)
+                                        posNames[i] = selectableNames[selectedIndices[i]];
                                 }
                             }
-                            posNames[i] = EditorGUILayout.TextField(shapeKeyNames[i], posNames[i]);
                         }
                     }
                 }
-            }
 
-            useDuplication = EditorGUILayout.Toggle("Duplication ShapeKeys", useDuplication);
+            }
 
             using (new EditorGUI.DisabledScope(renderer == null))
             {
+                useDuplication = EditorGUILayout.Toggle("Duplication ShapeKeys", useDuplication);
+
                 if (GUILayout.Button("Change ShapeKeyName"))
                 {
                     CreateNewShapeKeyNameMesh(renderer, posNames, useDuplication, shapeKeyNames);
 
                     shapeKeyNames = GetBlendShapeListFromRenderer(renderer);
                     posNames = shapeKeyNames.ToArray();
+                    selectedIndices = new int[shapeKeyNames.Count];
+                    for (int i = 0; i < selectedIndices.Length; i++)
+                    {
+                        selectedIndices[i] = -1;
+                    }
 
                 }
             }
@@ -112,7 +185,7 @@ namespace VRCDeveloperTool
 
             if (posShapeKeyNames.Length != mesh.blendShapeCount) return false;
 
-            var mesh_custom = Object.Instantiate<Mesh>(mesh);
+            var mesh_custom = UnityEngine.Object.Instantiate<Mesh>(mesh);
 
             mesh_custom.ClearBlendShapes();
 
@@ -163,6 +236,13 @@ namespace VRCDeveloperTool
                     shapeKeyNames.Add(mesh.GetBlendShapeName(i));
 
             return shapeKeyNames;
+        }
+
+        private string[] LoadJsonDataFromResourceFolder(string path)
+        {
+            var textAsset = Resources.Load<TextAsset>(path);
+            var jsonData = JsonUtility.FromJson<JsonData>(textAsset.ToString());
+            return jsonData.ShapeKeyNames;
         }
     }
 }
