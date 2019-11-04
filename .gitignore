@@ -68,3 +68,6 @@ Plugins/VRCSDK
 # テストシーンを除く
 Test.unity
 
+Assets/*
+!Assets/VRCDeveloperTool
+
