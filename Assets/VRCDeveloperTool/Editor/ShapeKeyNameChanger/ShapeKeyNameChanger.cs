@@ -5,7 +5,7 @@ using UnityEditor;
 using System.IO;
 using System.Text;
 
-// ver 1.0.1
+// ver 1.1
 // Copyright (c) 2019 gatosyocora
 
 namespace VRCDeveloperTool
@@ -16,6 +16,8 @@ namespace VRCDeveloperTool
         private SkinnedMeshRenderer renderer;
 
         private string[] posNames;
+
+        private bool useDuplication = false;
 
         private Vector2 scrollPos = Vector2.zero;
 
@@ -81,11 +83,18 @@ namespace VRCDeveloperTool
                     }
                 }
             }
+
+            useDuplication = EditorGUILayout.Toggle("Duplication ShapeKeys", useDuplication);
+
             using (new EditorGUI.DisabledScope(renderer == null))
             {
                 if (GUILayout.Button("Change ShapeKeyName"))
                 {
-                    CreateNewShapeKeyNameMesh(renderer, posNames);
+                    CreateNewShapeKeyNameMesh(renderer, posNames, useDuplication, shapeKeyNames);
+
+                    shapeKeyNames = GetBlendShapeListFromRenderer(renderer);
+                    posNames = shapeKeyNames.ToArray();
+
                 }
             }
         }
@@ -96,7 +105,7 @@ namespace VRCDeveloperTool
         /// <param name="renderer">シェイプキーの名称を変更したいメッシュを持つSkinnedMeshRenderer</param>
         /// <param name="posShapeKeyNames">変更後のシェイプキーの名称のリスト</param>
         /// <returns></returns>
-        private bool CreateNewShapeKeyNameMesh(SkinnedMeshRenderer renderer, string[] posShapeKeyNames)
+        private bool CreateNewShapeKeyNameMesh(SkinnedMeshRenderer renderer, string[] posShapeKeyNames, bool useDuplication, List<string> preShapeKeyNames)
         {
             var mesh = renderer.sharedMesh;
             if (mesh == null) return false;
@@ -108,7 +117,7 @@ namespace VRCDeveloperTool
             mesh_custom.ClearBlendShapes();
 
             var frameIndex = 0;
-            var shapeKeyName = "";
+            var shapeKeyName = string.Empty;
             Vector3[] deltaVertices, deltaNormals, deltaTangents;
             for (int blendShapeIndex = 0; blendShapeIndex < mesh.blendShapeCount; blendShapeIndex++)
             {
@@ -119,6 +128,12 @@ namespace VRCDeveloperTool
                 mesh.GetBlendShapeFrameVertices(blendShapeIndex, frameIndex, deltaVertices, deltaNormals, deltaTangents);
                 var weight = mesh.GetBlendShapeFrameWeight(blendShapeIndex, frameIndex);
                 shapeKeyName = posNames[blendShapeIndex];
+
+                // 複製するかつ変更されるシェイプキー名であれば
+                if (useDuplication && !preShapeKeyNames[blendShapeIndex].Equals(shapeKeyName))
+                {
+                    mesh_custom.AddBlendShapeFrame(preShapeKeyNames[blendShapeIndex], weight, deltaVertices, deltaNormals, deltaTangents);
+                }
 
                 mesh_custom.AddBlendShapeFrame(shapeKeyName, weight, deltaVertices, deltaNormals, deltaTangents);
             }
