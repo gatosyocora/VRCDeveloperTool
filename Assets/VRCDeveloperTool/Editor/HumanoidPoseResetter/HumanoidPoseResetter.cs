@@ -33,7 +33,7 @@ namespace VRCDeveloperTool
 
         public static void ResetPose(GameObject obj)
         {
-            var prefab = PrefabUtility.GetPrefabParent(obj);
+            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(obj);
             string prefabPath = AssetDatabase.GetAssetPath(prefab);
 
             if (prefab == null) return;
