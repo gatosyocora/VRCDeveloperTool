@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-// ver 1.1
-// © 2019-1-6 gatosyocora
+// ver 1.2
+// © 2019 gatosyocora
 
 namespace VRCDeveloperTool
 {
