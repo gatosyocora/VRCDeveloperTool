@@ -42,7 +42,7 @@ ver1.1.1 FingerPointとRocknRollのAnimationファイルの一部値が0,1フレ
 ver1.2 手の形を未設定状態にする機能を追加
 
 -----------------------------------------------------
-〇HumanoidPoseResetter(ver1.1)
+〇HumanoidPoseResetter(ver1.2)
 アニメーションオーバーライドの設定等で変更されたHumanoidオブジェクトのポーズを元に戻します。
 
 [使い方1]
@@ -58,6 +58,7 @@ Ctrl+Zでポーズを変更前に戻すこともできます
 ・更新履歴
 ver1.0 Humanoidオブジェクトのポーズをリセットする機能を追加
 ver1.1 Hierarchyでオブジェクトを右クリックでもリセットできるようになりました
+ver1.2 Unity2018からのPrefabシステムで使われるUnpackPrefabを使用したモデルでもリセットできるように
 
 -----------------------------------------------------
 〇MeshBoundsSetter(ver1.02)
