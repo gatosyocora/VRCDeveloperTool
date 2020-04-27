@@ -33,32 +33,29 @@ namespace VRCDeveloperTool
 
         public static void ResetPose(GameObject obj)
         {
-            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(obj);
-            string prefabPath = AssetDatabase.GetAssetPath(prefab);
-
-            if (prefab == null) return;
-
-            var prefabObj = Object.Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-            prefabObj.SetActive(true);
-
             /* 対象オブジェクトのポーズを取得 */
             Animator animator = obj.GetComponent<Animator>();
             if (animator == null) return;
 
+            var sourcePath = AssetDatabase.GetAssetPath(animator.avatar);
+
+            var sourceObj = AssetDatabase.LoadAssetAtPath(sourcePath, typeof(GameObject)) as GameObject;
+
             var boneTrans = new Transform[boneList.Length];
 
             for (int i = 0; i < boneList.Length; i++)
+            {
                 boneTrans[i] = animator.GetBoneTransform(boneList[i]);
-
+            }
 
             /* 対象オブジェクトの親Prefabのポーズを取得 */
-            Animator prefabAnim = prefabObj.GetComponent<Animator>();
-            if (prefabAnim == null) return;
+            Animator sourceAnim = sourceObj.GetComponent<Animator>();
+            if (sourceAnim == null) return;
 
             var boneTrans_p = new Transform[boneList.Length];
 
             for (int i = 0; i < boneList.Length; i++)
-                boneTrans_p[i] = prefabAnim.GetBoneTransform(boneList[i]);
+                boneTrans_p[i] = sourceAnim.GetBoneTransform(boneList[i]);
 
 
             for (int j = 0; j < boneList.Length; j++)
@@ -78,9 +75,6 @@ namespace VRCDeveloperTool
                 trans.localPosition = prefabTrans.localPosition;
                 trans.localRotation = prefabTrans.localRotation;
             }
-
-            Object.DestroyImmediate(prefabObj);
-
         }
     }
 }
