@@ -42,7 +42,7 @@ namespace VRCDeveloperTool
         public static void ResetPoseFromHierarchy(MenuCommand command)
         {
             var obj = command.context as GameObject;
-            ResetPose(obj);
+            HumanoidPoseResetter.ResetPose(obj);
         }
 
         private void OnGUI()
@@ -54,72 +54,21 @@ namespace VRCDeveloperTool
                 true
             ) as GameObject;
 
-            guiAction();
+            GuiAction();
 
         }
 
-        private void guiAction()
+        private void GuiAction()
         {
 
             EditorGUI.BeginDisabledGroup(targetObject == null);
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Reset Pose"))
             {
-                ResetPose(targetObject);
+                HumanoidPoseResetter.ResetPose(targetObject);
             }
             EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
-        }
-
-        private static void ResetPose(GameObject obj)
-        {
-            Object prefab = PrefabUtility.GetPrefabParent(obj);
-            string prefabPath = AssetDatabase.GetAssetPath(prefab);
-
-            if (prefab == null) return;
-
-            var prefabObj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-            prefabObj.SetActive(true);
-
-            /* 対象オブジェクトのポーズを取得 */
-            Animator animator = obj.GetComponent<Animator>();
-            if (animator == null) return;
-
-            var boneTrans = new Transform[boneList.Length];
-
-            for (int i = 0; i < boneList.Length; i++)
-                boneTrans[i] = animator.GetBoneTransform(boneList[i]);
-
-
-            /* 対象オブジェクトの親Prefabのポーズを取得 */
-            Animator prefabAnim = prefabObj.GetComponent<Animator>();
-            if (prefabAnim == null) return;
-
-            var boneTrans_p = new Transform[boneList.Length];
-
-            for (int i = 0; i < boneList.Length; i++)
-                boneTrans_p[i] = prefabAnim.GetBoneTransform(boneList[i]);
-
-
-            for (int j = 0; j < boneList.Length; j++)
-            {
-                var trans = boneTrans[j];
-                var prefabTrans = boneTrans_p[j];
-
-                if (trans == null)
-                {
-                    Debug.Log("[Transform not found]:" + j + ":" + boneList[j]);
-                    continue;
-                }
-
-                Undo.RecordObject(trans, "Change Transform " + trans.name);
-
-                trans.localPosition = prefabTrans.localPosition;
-                trans.localRotation = prefabTrans.localRotation;
-            }
-
-            DestroyImmediate(prefabObj);
-
         }
     }
 
