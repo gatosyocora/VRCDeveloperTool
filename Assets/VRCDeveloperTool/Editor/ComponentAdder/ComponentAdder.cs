@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
+#if VRC_SDK_VRCSDK2
 using VRCSDK2;
+#endif
 using System.Collections.Generic;
 
 // ver 1.21
@@ -109,17 +111,21 @@ namespace VRCDeveloperTool
             }
             if (isObjectSync)
             {
+#if VRC_SDK_VRCSDK2
                 if (obj.GetComponent<VRC_ObjectSync>() == null)
                 {
                     var com = obj.AddComponent<VRC_ObjectSync>();
                 }
+#endif
             }
             if (isPickup)
             {
+#if VRC_SDK_VRCSDK2
                 if (obj.GetComponent<VRC_Pickup>() == null)
                 {
                     var com = obj.AddComponent<VRC_Pickup>();
                 }
+#endif
             }
             if (isBoxCollider)
             {
@@ -138,8 +144,10 @@ namespace VRCDeveloperTool
         {
             if (isPickup)
             {
+#if VRC_SDK_VRCSDK2
                 var com = obj.GetComponent<VRC_Pickup>();
                 if (com != null) DestroyImmediate(com);
+#endif
             }
             if (isRigidbody)
             {
@@ -148,8 +156,10 @@ namespace VRCDeveloperTool
             }
             if (isObjectSync)
             {
+#if VRC_SDK_VRCSDK2
                 var com = obj.GetComponent<VRC_ObjectSync>();
                 if (com != null) DestroyImmediate(com);
+#endif
             }
             if (isBoxCollider)
             {
@@ -176,12 +186,26 @@ namespace VRCDeveloperTool
             isObjectSync = EditorGUILayout.BeginToggleGroup("VRC_ObjectSync", isObjectSync);
             //syncPhysicsFlag = EditorGUILayout.Toggle("Synchronize Physics", syncPhysicsFlag);
             //collisionTransferFlag = EditorGUILayout.Toggle("Collision Transfer", collisionTransferFlag);
+#if VRC_SDK_VRCSDK2
+#else
+            if (isObjectSync)
+            {
+                EditorGUILayout.HelpBox("VRCSDK2をインポートしてください", MessageType.Error);
+            }
+#endif
             EditorGUILayout.EndToggleGroup();
         }
 
         private void guiPickup()
         {
             isPickup = EditorGUILayout.BeginToggleGroup("VRC_Pickup", isPickup);
+#if VRC_SDK_VRCSDK2
+#else
+            if (isPickup)
+            {
+                EditorGUILayout.HelpBox("VRCSDK2をインポートしてください", MessageType.Error);
+            }
+#endif
             EditorGUILayout.EndToggleGroup();
         }
 
