@@ -6,7 +6,7 @@ using VRCSDK2;
 using System.Collections.Generic;
 
 // ver 1.21
-// © 2018-9-18 gatosyocora
+// © 2018 gatosyocora
 
 namespace VRCDeveloperTool
 {
