@@ -5,7 +5,7 @@ using VRCSDK2;
 #endif
 using System.Collections.Generic;
 
-// ver 1.21
+// ver 1.2.2
 // © 2018 gatosyocora
 
 namespace VRCDeveloperTool
