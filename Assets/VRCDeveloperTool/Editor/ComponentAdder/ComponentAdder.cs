@@ -98,7 +98,9 @@ namespace VRCDeveloperTool
         {
             if (isRigidbody)
             {
-                var rigid = obj.GetOrAddComponent<Rigidbody>();
+                var rigid = obj.GetComponent<Rigidbody>();
+                if (rigid == null)
+                    rigid = obj.AddComponent<Rigidbody>();
                 rigid.isKinematic = isKinematicFlag;
                 rigid.useGravity = useGravityFlag;
                 rigid.constraints = 0;
@@ -123,7 +125,9 @@ namespace VRCDeveloperTool
             {
                 if (obj.GetComponent<Collider>() == null || obj.GetComponent<BoxCollider>() != null)
                 {
-                    var com = obj.GetOrAddComponent<BoxCollider>();
+                    var com = obj.GetComponent<BoxCollider>();
+                    if (com == null)
+                        com = obj.AddComponent<BoxCollider>();
                     com.isTrigger = isTriggerFlag;
                 }
             }
