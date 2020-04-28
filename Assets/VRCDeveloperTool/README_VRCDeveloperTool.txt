@@ -1,7 +1,7 @@
 ﻿本セットに含まれる各種Editor拡張に関しての説明と利用規約を記載しています。
 
 ----------------------------------------------------
-〇ComponentAdder (ver1.21)
+〇ComponentAdder (ver1.2.2)
 指定したオブジェクトの直接的な子オブジェクトすべてに特定のコンポーネントをつけます(Current_Child_Only)
 ver1.1からすべての子オブジェクトにもつけられるモード(All_Children)を追加しました
 
@@ -14,7 +14,8 @@ Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「
 ver1.0 Rigidbody, VRC_Pickup, VRC_ObjectSyncに対応
 ver1.1 RigidbodyでFreeze系を操作可能に, コンポーネントの一括削除可能に, 子オブジェクト以降すべてに追加可能に
 ver1.2 BoxColliderに対応(既にBoxCollider以外のColliderがついている場合、追加されない)
-ver1.21 All_Childrenの内部処理を簡略化
+ver1.2.1 All_Childrenの内部処理を簡略化
+ver1.2.2 VRCSDK2がインポートされていなくても動くように
 
 -----------------------------------------------------
 〇HandPoseAdder(ver1.2)
