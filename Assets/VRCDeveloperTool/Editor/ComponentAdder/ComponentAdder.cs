@@ -30,8 +30,6 @@ namespace VRCDeveloperTool
         private bool freezeRotFlag = false;
 
         private bool isObjectSync = false;
-        private bool syncPhysicsFlag = true;
-        private bool collisionTransferFlag = true;
 
         private bool isPickup = false;
 
