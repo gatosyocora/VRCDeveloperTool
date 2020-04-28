@@ -48,7 +48,8 @@ namespace VRCDeveloperTool
                 renderer = EditorGUILayout.ObjectField(
                                             "Renderer",
                                             renderer,
-                                            typeof(SkinnedMeshRenderer)
+                                            typeof(SkinnedMeshRenderer),
+                                            true
                            ) as SkinnedMeshRenderer;
 
                 if (check.changed)
