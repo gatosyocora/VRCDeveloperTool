@@ -15,6 +15,7 @@ namespace VRCDeveloperTool
     public class AnimatorControllerDuplicater : EditorWindow
     {
         private RuntimeAnimatorController runtimeAnimatorController;
+        private static RuntimeAnimatorController tempController;
         private List<ControllerAnimationClip> animationClips;
 
         private string saveFolder;
@@ -42,6 +43,13 @@ namespace VRCDeveloperTool
             }
         }
 
+        [MenuItem("CONTEXT/RuntimeAnimatorController/Duplicate Controller And Clips")]
+        private static void GetSelectController(MenuCommand menuCommand)
+        {
+            tempController = menuCommand.context as RuntimeAnimatorController;
+            Open();
+        }
+
         [MenuItem("VRCDeveloperTool/AnimatorControllerDuplicater")]
         public static void Open()
         {
@@ -50,6 +58,13 @@ namespace VRCDeveloperTool
 
         private void OnGUI()
         {
+            if (tempController != null)
+            {
+                runtimeAnimatorController = tempController;
+                tempController = null;
+                LoadRuntimeControllerInfo(runtimeAnimatorController);
+            }
+
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 runtimeAnimatorController = EditorGUILayout.ObjectField(
@@ -65,32 +80,7 @@ namespace VRCDeveloperTool
 
                 if (check.changed && runtimeAnimatorController != null) 
                 {
-                    AnimatorController controller = runtimeAnimatorController as AnimatorController;
-                    AnimatorOverrideController overrideController = runtimeAnimatorController as AnimatorOverrideController;
-
-                    if (controller != null)
-                    {
-                        isOverrideController = false;
-                        // AnimatorControllerからAnimationClipの取得
-                    }
-                    else if (overrideController != null)
-                    {
-                        isOverrideController = true;
-                        // AnimatorOverrideControllerからAnimationClipの取得
-                        // OverrideされたAnimationClipのみ取得
-                        var baseAnimationController = overrideController.runtimeAnimatorController as AnimatorController;
-                        animationClips = overrideController.animationClips
-                                        .Select((x, index) => new { Value = x, Index = index })
-                                        .Where(x => baseAnimationController.animationClips[x.Index].name != x.Value.name)
-                                        .Select(x => new ControllerAnimationClip(x.Value, x.Index))
-                                        .ToList();
-
-                        animationClips = DistinctControllerAnimationClips(animationClips);
-
-                    }
-
-                    saveFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(runtimeAnimatorController));
-                    endKeyword = "_duplicated";
+                    LoadRuntimeControllerInfo(runtimeAnimatorController);
                 }
             }
 
@@ -224,6 +214,36 @@ namespace VRCDeveloperTool
 
             distinctedAnimClips = animClipDictionary.Select(x => x.Value).ToList();
             return distinctedAnimClips;
+        }
+
+        private void LoadRuntimeControllerInfo(RuntimeAnimatorController runtimeAnimatorController)
+        {
+            AnimatorController controller = runtimeAnimatorController as AnimatorController;
+            AnimatorOverrideController overrideController = runtimeAnimatorController as AnimatorOverrideController;
+
+            if (controller != null)
+            {
+                isOverrideController = false;
+                // AnimatorControllerからAnimationClipの取得
+            }
+            else if (overrideController != null)
+            {
+                isOverrideController = true;
+                // AnimatorOverrideControllerからAnimationClipの取得
+                // OverrideされたAnimationClipのみ取得
+                var baseAnimationController = overrideController.runtimeAnimatorController as AnimatorController;
+                animationClips = overrideController.animationClips
+                                .Select((x, index) => new { Value = x, Index = index })
+                                .Where(x => baseAnimationController.animationClips[x.Index].name != x.Value.name)
+                                .Select(x => new ControllerAnimationClip(x.Value, x.Index))
+                                .ToList();
+
+                animationClips = DistinctControllerAnimationClips(animationClips);
+
+            }
+
+            saveFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(runtimeAnimatorController));
+            endKeyword = "_duplicated";
         }
     }
 }
