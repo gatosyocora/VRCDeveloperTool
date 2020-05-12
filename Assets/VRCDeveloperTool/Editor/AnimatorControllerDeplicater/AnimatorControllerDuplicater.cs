@@ -23,6 +23,8 @@ namespace VRCDeveloperTool
 
         private bool isOverrideController = true;
 
+        private Vector2 scrollPos = Vector2.zero;
+
         public class ControllerAnimationClip
         {
             public AnimationClip clip;
@@ -86,20 +88,31 @@ namespace VRCDeveloperTool
 
             if (animationClips != null)
             {
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    EditorGUILayout.LabelField("複製", EditorStyles.boldLabel, GUILayout.Width(50f));
-                    EditorGUILayout.LabelField("AnimationClipの名前", EditorStyles.boldLabel);
-                }
-                foreach (var animationClip in animationClips)
+                EditorGUILayout.LabelField("AnimaionClips", EditorStyles.boldLabel);
+
+                using (new EditorGUI.IndentLevelScope())
                 {
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        animationClip.isDuplicate = EditorGUILayout.ToggleLeft(string.Empty, animationClip.isDuplicate, GUILayout.Width(50f));
-                        EditorGUILayout.LabelField(animationClip.clip.name);
-                        if (GUILayout.Button("Select"))
+                        EditorGUILayout.LabelField("複製", EditorStyles.boldLabel, GUILayout.Width(50f));
+                        EditorGUILayout.LabelField("AnimationClipの名前", EditorStyles.boldLabel);
+                    }
+
+                    using (var scroll = new EditorGUILayout.ScrollViewScope(scrollPos))
+                    {
+                        scrollPos = scroll.scrollPosition;
+
+                        foreach (var animationClip in animationClips)
                         {
-                            Selection.activeObject = animationClip.clip;
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                animationClip.isDuplicate = EditorGUILayout.ToggleLeft(string.Empty, animationClip.isDuplicate, GUILayout.Width(50f));
+                                EditorGUILayout.LabelField(animationClip.clip.name);
+                                if (GUILayout.Button("Select"))
+                                {
+                                    Selection.activeObject = animationClip.clip;
+                                }
+                            }
                         }
                     }
                 }
