@@ -125,6 +125,8 @@ namespace Gatosyocora
         /// <returns></returns>
         public static string AddKeywordToEnd(string target, string keyword)
         {
+            if (string.IsNullOrEmpty(keyword)) return target;
+
             var normalString = Regex.Replace(target, keyword + ".*", string.Empty);
             return normalString + keyword;
         }

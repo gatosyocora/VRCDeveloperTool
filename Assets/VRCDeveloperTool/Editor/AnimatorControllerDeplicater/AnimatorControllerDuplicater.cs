@@ -243,7 +243,7 @@ namespace VRCDeveloperTool
             }
 
             saveFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(runtimeAnimatorController));
-            endKeyword = "_duplicated";
+            endKeyword = string.Empty;
         }
     }
 }
