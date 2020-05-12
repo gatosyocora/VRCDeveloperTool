@@ -139,6 +139,31 @@ namespace VRCDeveloperTool
             AssetDatabase.Refresh();
 
             runtimeAnimatorController = AssetDatabase.LoadAssetAtPath(newControllerPath, typeof(RuntimeAnimatorController)) as RuntimeAnimatorController;
+
+            foreach (var animationClip in animationClips)
+            {
+                if (!animationClip.isDuplicate) continue;
+
+                var animClipPath = AssetDatabase.GetAssetPath(animationClip.clip);
+                var newAnimClipPath = AssetDatabase.GenerateUniqueAssetPath(
+                                        saveFolder + "\\"
+                                        + GatoEditorUtility.AddKeywordToEnd(Path.GetFileNameWithoutExtension(animClipPath), endKeyword)
+                                        + Path.GetExtension(animClipPath));
+
+                var successAnimClip = AssetDatabase.CopyAsset(animClipPath, newAnimClipPath);
+
+                if (!successAnimClip)
+                {
+                    Debug.LogErrorFormat("AnimationClip:{0}の複製に失敗しました", animationClip.clip.name);
+                    return;
+                }
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                animationClip.clip = AssetDatabase.LoadAssetAtPath(newAnimClipPath, typeof(AnimationClip)) as AnimationClip;
+
+            }
         }
     }
 }
