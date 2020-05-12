@@ -109,7 +109,7 @@ namespace VRCDeveloperTool
 
             endKeyword = EditorGUILayout.TextField("複製後Assetのキーワード", endKeyword);
 
-            EditorGUILayout.HelpBox("AnimatorControllerおよび選択したAnimationClipを複製します\n複製されると複製後のものがそれぞれ設定されます", MessageType.Info);
+            EditorGUILayout.HelpBox("AnimatorControllerおよび選択したAnimationClipを複製します\n複製されると複製後のものがそれぞれ設定されます\n複製後Assetのキーワードに設定した文字がそれぞれの名前の末尾につきます", MessageType.Info);
 
             using (new EditorGUI.DisabledGroupScope(runtimeAnimatorController == null || !isOverrideController))
             {
