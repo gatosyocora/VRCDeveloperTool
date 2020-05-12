@@ -15,11 +15,29 @@ namespace VRCDeveloperTool
     public class AnimatorControllerDuplicater : EditorWindow
     {
         private RuntimeAnimatorController runtimeAnimatorController;
-        private List<AnimationClip> animationClips;
-        private bool[] isDuplicate;
+        private List<ControllerAnimationClip> animationClips;
 
         private string saveFolder;
         private string endKeyword;
+
+        public class ControllerAnimationClip
+        {
+            public AnimationClip clip;
+            private List<int> controllerIndices;
+            public bool isDuplicate;
+
+            public ControllerAnimationClip(AnimationClip clip, bool isDuplicate = true)
+            {
+                this.clip = clip;
+                controllerIndices = new List<int>();
+                this.isDuplicate = isDuplicate;
+            }
+
+            public void AddIndex(int index)
+            {
+                controllerIndices.Add(index);
+            }
+        }
 
         [MenuItem("VRCDeveloperTool/AnimatorControllerDuplicater")]
         public static void Open()
@@ -47,7 +65,6 @@ namespace VRCDeveloperTool
                     if (controller != null)
                     {
                         // AnimatorControllerからAnimationClipの取得
-                        isDuplicate = new bool[animationClips.Count];
                     }
                     else if (overrideController != null)
                     {
@@ -57,10 +74,8 @@ namespace VRCDeveloperTool
                         animationClips = overrideController.animationClips
                                         .Where((x, i) => baseAnimationController.animationClips[i].name != x.name)
                                         .Distinct()
+                                        .Select(x => new ControllerAnimationClip(x))
                                         .ToList();
-
-                        isDuplicate = new bool[animationClips.Count];
-                        isDuplicate = isDuplicate.Select(x => true).ToArray();
                     }
 
                     saveFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(runtimeAnimatorController));
@@ -75,15 +90,15 @@ namespace VRCDeveloperTool
                     EditorGUILayout.LabelField("複製", EditorStyles.boldLabel, GUILayout.Width(50f));
                     EditorGUILayout.LabelField("AnimationClipの名前", EditorStyles.boldLabel);
                 }
-                for (int i = 0; i < animationClips.Count; i++)
+                foreach (var animationClip in animationClips)
                 {
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        isDuplicate[i] = EditorGUILayout.ToggleLeft(string.Empty, isDuplicate[i], GUILayout.Width(50f));
-                        EditorGUILayout.LabelField(animationClips[i].name);
+                        animationClip.isDuplicate = EditorGUILayout.ToggleLeft(string.Empty, animationClip.isDuplicate, GUILayout.Width(50f));
+                        EditorGUILayout.LabelField(animationClip.clip.name);
                         if (GUILayout.Button("Select"))
                         {
-                            Selection.activeObject = animationClips[i];
+                            Selection.activeObject = animationClip.clip;
                         }
                     }
                 }
