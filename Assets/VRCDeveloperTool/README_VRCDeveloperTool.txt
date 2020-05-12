@@ -260,6 +260,25 @@ ver1.0 本ツールを作成
 
 -----------------------------------------------------
 
+〇AnimatorControllerDuplicator (ver1.0)
+AnimatorControllerまたはAnimatorOverrideControllerを設定されたAnimationClipごと複製します。
+現在はAnimatorControllerには対応できていません。
+
+Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「VRCDeveloperTool>AnimatorControllerDuplicater」から以下の機能を持つウィンドウが開けます
+また、AnimatorControllerやAnimatorOverrideControllerのInspectorで名前あたりを右クリック>「Duplicate controller and clips」からも開けます。
+
+[使い方]
+1. 「AnimatorController」に複製したいAnimatorControllerまたはAnimatorOverrideControllerを選択します。
+（右クリックから起動した場合はこの操作は不要です）
+2. 複製するAnimationClipにチェックを入れます。「Select」でinspectorやAnimationタブでそれぞれの詳細を見ることができます。
+3. 保存先フォルダと複製後Assetのキーワードを必要に応じて設定します。
+4. 「Duplicate AnimatorController & AnimationClips」を選択します。複製が完了すると各項目に複製後のものが設定されます。
+
+・更新履歴
+ver1.0 本ツールを作成
+
+-----------------------------------------------------
+
 ●利用規約
 本規約は本商品に含まれるすべてのスクリプトやファイルに共通で適用されるものとする。
 本商品を使用したことによって生じた問題に関してはgatosyocoraは一切の責任を負わない。
@@ -267,6 +286,7 @@ ver1.0 本ツールを作成
 ・スクリプト
 本スクリプトはzlibライセンスで運用される。
 著作権はgatosyocoraに帰属する。
+ただし、GatoEditorUtility.csのみはMITライセンスとして運用される
 
 ・Animationファイル
 また、同封されているAnimationファイルはパラメータの一部を含め、商用利用・改変・二次配布を許可する。
