@@ -20,7 +20,7 @@ namespace VRCDeveloperTool
         private string saveFolder;
         private string endKeyword;
 
-        private bool isOverrideController = false;
+        private bool isOverrideController = true;
 
         public class ControllerAnimationClip
         {
@@ -58,7 +58,10 @@ namespace VRCDeveloperTool
                                                 typeof(RuntimeAnimatorController),
                                                 true) as RuntimeAnimatorController;
 
-                EditorGUILayout.HelpBox("複製したいAnimatorControllerまたはAnimatorOverrideControllerを設定してください", MessageType.Info);
+                EditorGUILayout.HelpBox("複製したいAnimatorOverrideControllerを設定してください", MessageType.Info);
+
+                if (!isOverrideController)
+                    EditorGUILayout.HelpBox("まだAnimatorControllerは未対応です", MessageType.Error);
 
                 if (check.changed && runtimeAnimatorController != null) 
                 {
@@ -118,7 +121,7 @@ namespace VRCDeveloperTool
 
             EditorGUILayout.HelpBox("AnimatorControllerおよび選択したAnimationClipを複製します\n複製されると複製後のものがそれぞれ設定されます", MessageType.Info);
 
-            using (new EditorGUI.DisabledGroupScope(runtimeAnimatorController == null))
+            using (new EditorGUI.DisabledGroupScope(runtimeAnimatorController == null || !isOverrideController))
             {
                 if (GUILayout.Button("Duplicate AnimatorController & AnimationClips"))
                 {
