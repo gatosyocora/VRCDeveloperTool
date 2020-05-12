@@ -12,7 +12,7 @@ using Gatosyocora;
 
 namespace VRCDeveloperTool
 {
-    public class AnimatorControllerDuplicater : EditorWindow
+    public class AnimatorControllerDuplicator : EditorWindow
     {
         private RuntimeAnimatorController runtimeAnimatorController;
         private static RuntimeAnimatorController tempController;
@@ -52,10 +52,10 @@ namespace VRCDeveloperTool
             Open();
         }
 
-        [MenuItem("VRCDeveloperTool/AnimatorControllerDuplicater")]
+        [MenuItem("VRCDeveloperTool/AnimatorControllerDuplicator")]
         public static void Open()
         {
-            GetWindow<AnimatorControllerDuplicater>("AnimatorControllerDuplicater");
+            GetWindow<AnimatorControllerDuplicator>("AnimatorControllerDuplicator");
         }
 
         private void OnGUI()
