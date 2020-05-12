@@ -20,16 +20,19 @@ namespace VRCDeveloperTool
         private string saveFolder;
         private string endKeyword;
 
+        private bool isOverrideController = false;
+
         public class ControllerAnimationClip
         {
             public AnimationClip clip;
-            private List<int> controllerIndices;
+            public List<int> controllerIndices;
             public bool isDuplicate;
 
-            public ControllerAnimationClip(AnimationClip clip, bool isDuplicate = true)
+            public ControllerAnimationClip(AnimationClip clip, int index, bool isDuplicate = true)
             {
                 this.clip = clip;
                 controllerIndices = new List<int>();
+                AddIndex(index);
                 this.isDuplicate = isDuplicate;
             }
 
@@ -64,18 +67,23 @@ namespace VRCDeveloperTool
 
                     if (controller != null)
                     {
+                        isOverrideController = false;
                         // AnimatorControllerからAnimationClipの取得
                     }
                     else if (overrideController != null)
                     {
+                        isOverrideController = true;
                         // AnimatorOverrideControllerからAnimationClipの取得
                         // OverrideされたAnimationClipのみ取得
                         var baseAnimationController = overrideController.runtimeAnimatorController as AnimatorController;
                         animationClips = overrideController.animationClips
-                                        .Where((x, i) => baseAnimationController.animationClips[i].name != x.name)
-                                        .Distinct()
-                                        .Select(x => new ControllerAnimationClip(x))
+                                        .Select((x, index) => new { Value = x, Index = index })
+                                        .Where(x => baseAnimationController.animationClips[x.Index].name != x.Value.name)
+                                        .Select(x => new ControllerAnimationClip(x.Value, x.Index))
                                         .ToList();
+
+                        animationClips = DistinctControllerAnimationClips(animationClips);
+
                     }
 
                     saveFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(runtimeAnimatorController));
@@ -163,7 +171,56 @@ namespace VRCDeveloperTool
 
                 animationClip.clip = AssetDatabase.LoadAssetAtPath(newAnimClipPath, typeof(AnimationClip)) as AnimationClip;
 
+                foreach (var index in animationClip.controllerIndices)
+                {
+                    runtimeAnimatorController.animationClips[index] = animationClip.clip;
+                }
             }
+
+            if (isOverrideController)
+            {
+                var overrideController = runtimeAnimatorController as AnimatorOverrideController;
+                var baseAnimClips = overrideController.runtimeAnimatorController.animationClips;
+
+                foreach (var animationClip in animationClips)
+                {
+                    foreach (var index in animationClip.controllerIndices)
+                    {
+                        var baseAnimClipName = baseAnimClips[index].name;
+                        overrideController[baseAnimClipName] = animationClip.clip;
+                    }
+                }
+            }
+            else
+            {
+
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        private List<ControllerAnimationClip> DistinctControllerAnimationClips(List<ControllerAnimationClip> animClips)
+        {
+            var distinctedAnimClips = new List<ControllerAnimationClip>();
+            var animClipDictionary = new Dictionary<string, ControllerAnimationClip>();
+
+            for (int i = 0; i < animClips.Count; i++)
+            {
+                var animName = animClips[i].clip.name;
+                if (!animClipDictionary.ContainsKey(animName))
+                {
+                    animClipDictionary.Add(animName, animClips[i]);
+                }
+                else
+                {
+                    var animClipData = animClipDictionary[animName];
+                    animClipData.AddIndex(animClips[i].controllerIndices.First());
+                }
+            }
+
+            distinctedAnimClips = animClipDictionary.Select(x => x.Value).ToList();
+            return distinctedAnimClips;
         }
     }
 }
