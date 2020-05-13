@@ -7,7 +7,7 @@ using System.Linq;
 using System.IO;
 using VRCDeveloperTool;
 
-// ver 1.0
+// ver 1.0.1
 // Copyright (c) 2020 gatosyocora
 
 namespace VRCDeveloperTool
