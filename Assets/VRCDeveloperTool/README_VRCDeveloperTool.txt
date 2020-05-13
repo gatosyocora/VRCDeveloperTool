@@ -260,7 +260,7 @@ ver1.0 本ツールを作成
 
 -----------------------------------------------------
 
-〇AnimatorControllerDuplicator (ver1.0)
+〇AnimatorControllerDuplicator (ver1.0.1)
 AnimatorControllerまたはAnimatorOverrideControllerを設定されたAnimationClipごと複製します。
 現在はAnimatorControllerには対応できていません。
 
@@ -275,6 +275,7 @@ Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「
 4. 「Duplicate AnimatorController & AnimationClips」を選択します。複製が完了すると各項目に複製後のものが設定されます。
 
 ・更新履歴
+ver1.0.1 他のツールと干渉してしまう問題を修正
 ver1.0 本ツールを作成
 
 -----------------------------------------------------
