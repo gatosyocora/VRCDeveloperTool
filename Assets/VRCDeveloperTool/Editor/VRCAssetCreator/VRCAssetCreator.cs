@@ -5,6 +5,9 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 
+// ver 1.0
+// Copyright (c) 2020 gatosyocora
+
 namespace VRCDeveloperTool
 {
     public class VRCAssetCreator : Editor
