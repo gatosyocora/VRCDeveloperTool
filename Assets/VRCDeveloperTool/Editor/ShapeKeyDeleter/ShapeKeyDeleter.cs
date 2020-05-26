@@ -76,22 +76,18 @@ namespace VRCDeveloperTool
                 }
             }
 
-            using (new EditorGUI.DisabledScope(renderer == null || (selectedShapeKeys != null && selectedShapeKeys.Sum(x => x ? 1 : 0) <= 1)))
+            using (new EditorGUI.DisabledScope(renderer == null || (selectedShapeKeys != null && selectedShapeKeys.All(x => !x))))
             {
                 if (GUILayout.Button("Delete ShapeKeys"))
                 {
-                    // 2つ以上が選択されている
-                    if (selectedShapeKeys.Sum(x => x ? 1 : 0) > 0)
-                    {
-                        // 選択されている要素のインデックスの配列
-                        var selectedBlendShapeIndexs = selectedShapeKeys
-                            .Select((isSelect, index) => new { Index = index, Value = isSelect })
-                            .Where(x => x.Value)
-                            .Select(x => x.Index)
-                            .ToArray();
+                    // 選択されている要素のインデックスの配列
+                    var selectedBlendShapeIndexs = selectedShapeKeys
+                        .Select((isSelect, index) => new { Index = index, Value = isSelect })
+                        .Where(x => x.Value)
+                        .Select(x => x.Index)
+                        .ToArray();
 
-                        DeleteShapeKey(renderer, selectedBlendShapeIndexs);
-                    }
+                    DeleteShapeKey(renderer, selectedBlendShapeIndexs);
 
                     shapeKeyNames = GetBlendShapeListFromRenderer(renderer);
                     selectedShapeKeys = new bool[shapeKeyNames.Count()];
