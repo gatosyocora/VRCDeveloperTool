@@ -18,7 +18,7 @@ namespace VRCDeveloperTool
     public class VRCAvatarAnimationTester : EditorWindow
     {
 #if VRC_SDK_VRCSDK2
-		public static VRC_AvatarDescriptor avatar;
+		public VRC_AvatarDescriptor avatar;
 #endif
 		private Animator animator;
 		private AnimatorOverrideController controller;
@@ -47,7 +47,6 @@ namespace VRCDeveloperTool
 		[MenuItem("VRCDeveloperTool/VRCAvatarAnimationTester")]
 		public static void Open()
 		{
-			avatar = Selection.activeGameObject.GetComponent<VRC_AvatarDescriptor>();
 			GetWindow<VRCAvatarAnimationTester>("VRCAvatarAnimationTester");
 		}
 
