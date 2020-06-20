@@ -26,6 +26,7 @@ namespace VRCDeveloperTool
         public void Start()
         {
 			boneList = GetBoneInfo(animator);
+			Active = true;
 		}
 
         private void LateUpdate()

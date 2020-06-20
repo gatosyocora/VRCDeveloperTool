@@ -90,9 +90,15 @@ namespace VRCDeveloperTool
                             break;
                     }
 				}
-				else
+				else if (playingType == PlayingType.EMOTE)
                 {
 					poseConstraint.Active = false;
+					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
+					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
+				}
+                else
+                {
+					poseConstraint.Active = true;
 					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
 					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
 				}
