@@ -24,8 +24,6 @@ namespace VRCDeveloperTool
 		private AnimatorOverrideController controller;
 		private RuntimeAnimatorController defaultController;
 
-		private Task emoteTask = null;
-
 		public enum PlayingType 
 		{
 			NONE, OVERRIDE, EMOTE
@@ -36,8 +34,6 @@ namespace VRCDeveloperTool
 			NONE, RIGHT, LEFT, BOTH
         };
 		private PlayingHand playingHand = PlayingHand.NONE;
-
-		private AvatarMask mask;
 
 		private static readonly string[] OVERRIDES = new string[]
 		{
@@ -53,11 +49,6 @@ namespace VRCDeveloperTool
 		public static void Open()
 		{
 			GetWindow<VRCAvatarAnimationTester>("VRCAvatarAnimationTester");
-		}
-
-        private void OnEnable()
-        {
-			// mask = Resources.Load<AvatarMask>("Tester/VRCAvatarMask") as AvatarMask;
 		}
 
         private void Update()
@@ -97,9 +88,6 @@ namespace VRCDeveloperTool
 					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
 					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
 				}
-				// TODO: maskを設定すればしゃがみを回避できるがRuntimeにavatarMaskを変更できない
-				//var animatorController = controller.runtimeAnimatorController as AnimatorController;
-				//animatorController.layers[3].avatarMask = mask;
 			}
 			// 未再生
 			else
@@ -109,8 +97,6 @@ namespace VRCDeveloperTool
 					animator.runtimeAnimatorController = defaultController;
 					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
 					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
-					//var animatorController = controller.runtimeAnimatorController as AnimatorController;
-					//animatorController.layers[3].avatarMask = null;
 				}
 			}
         }
