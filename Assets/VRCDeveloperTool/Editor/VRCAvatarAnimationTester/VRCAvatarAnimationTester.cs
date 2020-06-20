@@ -186,6 +186,14 @@ namespace VRCDeveloperTool
 
 			using (new EditorGUI.DisabledGroupScope(!EditorApplication.isPlayingOrWillChangePlaymode))
             {
+				if (GUILayout.Button("Reset All"))
+				{
+					playingType = PlayingType.NONE;
+					playingHand = PlayingHand.NONE;
+				}
+
+				EditorGUILayout.Space();
+
 				EditorGUILayout.LabelField("AnimationOverrides", EditorStyles.boldLabel);
 				using (new EditorGUILayout.HorizontalScope())
                 {
