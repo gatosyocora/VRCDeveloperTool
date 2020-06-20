@@ -20,8 +20,8 @@ namespace VRCDeveloperTool
 #if VRC_SDK_VRCSDK2
 		public static VRC_AvatarDescriptor avatar;
 #endif
-		private Animator animator;
-		private AnimatorOverrideController controller;
+		private static Animator animator;
+		private static AnimatorOverrideController controller;
 		private RuntimeAnimatorController defaultController;
 
 		private Task emoteTask = null;
@@ -48,6 +48,11 @@ namespace VRCDeveloperTool
 		public static void Open()
 		{
 			avatar = Selection.activeGameObject.GetComponent<VRC_AvatarDescriptor>();
+			if (avatar != null)
+            {
+				animator = avatar.gameObject.GetComponent<Animator>();
+				controller = avatar.CustomStandingAnims;
+			}
 			GetWindow<VRCAvatarAnimationTester>("VRCAvatarAnimationTester");
 		}
 
