@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using UnityEditor.Animations;
+using UnityEditor.SceneManagement;
 #if VRC_SDK_VRCSDK2
 using VRCSDK2;
 #endif
@@ -45,6 +46,9 @@ namespace VRCDeveloperTool
 			"EMOTE1", "EMOTE2", "EMOTE3", "EMOTE4", "EMOTE5", "EMOTE6", "EMOTE7", "EMOTE8"
 		};
 
+		public GameObject poseConstraintObj;
+		public PoseConstraint poseConstraint;
+
 		[MenuItem("VRCDeveloperTool/VRCAvatarAnimationTester")]
 		public static void Open()
 		{
@@ -56,12 +60,15 @@ namespace VRCDeveloperTool
 			// 再生中
             if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
-				animator.runtimeAnimatorController = controller;
+				poseConstraint = poseConstraintObj.GetComponent<PoseConstraint>();
 
+				animator.runtimeAnimatorController = controller;
 				if (playingType == PlayingType.OVERRIDE)
                 {
+					poseConstraint.Active = true;
 					animator.SetInteger($"Emote", 0);
-                    switch (playingHand)
+
+					switch (playingHand)
                     {
                         case PlayingHand.NONE:
 							animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
@@ -85,6 +92,7 @@ namespace VRCDeveloperTool
 				}
 				else
                 {
+					poseConstraint.Active = false;
 					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
 					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
 				}
@@ -131,6 +139,11 @@ namespace VRCDeveloperTool
 					{
 						defaultController = animator.runtimeAnimatorController;
 						animator.runtimeAnimatorController = controller;
+						
+						poseConstraintObj = CreatePoseConstrainterToRootIfNeeded();
+						poseConstraint = poseConstraintObj.GetComponent<PoseConstraint>();
+						poseConstraint.UpdateBoneInfo(animator);
+
 						EditorApplication.isPlaying = true;
 					}
 				}
@@ -312,5 +325,16 @@ namespace VRCDeveloperTool
 			await Task.Delay(waitMilliSecond);
 			animator.SetInteger($"Emote", 0);
         }
-    }
+
+		private GameObject CreatePoseConstrainterToRootIfNeeded()
+        {
+			var obj = GameObject.Find("PoseConstrainter");
+			if (obj is null)
+            {
+				var prefab = Resources.Load("Tester/PoseConstrainter");
+				obj = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+			}
+			return obj;
+        }
+	}
 }
