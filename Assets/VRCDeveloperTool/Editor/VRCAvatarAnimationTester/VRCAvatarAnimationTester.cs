@@ -31,6 +31,11 @@ namespace VRCDeveloperTool
 			NONE, OVERRIDE, EMOTE
 		};
 		private PlayingType playingType = PlayingType.NONE;
+		public enum PlayingHand
+        {
+			NONE, RIGHT, LEFT, BOTH
+        };
+		private PlayingHand playingHand = PlayingHand.NONE;
 
 		private AvatarMask mask;
 
@@ -65,8 +70,27 @@ namespace VRCDeveloperTool
 				if (playingType == PlayingType.OVERRIDE)
                 {
 					animator.SetInteger($"Emote", 0);
-					animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 1);
-					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 1);
+                    switch (playingHand)
+                    {
+                        case PlayingHand.NONE:
+							animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
+							animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
+							break;
+                        case PlayingHand.RIGHT:
+							animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 0);
+							animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 1);
+							break;
+                        case PlayingHand.LEFT:
+							animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 1);
+							animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
+							break;
+                        case PlayingHand.BOTH:
+							animator.SetLayerWeight(animator.GetLayerIndex("HandLeft"), 1);
+							animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 1);
+							break;
+                        default:
+                            break;
+                    }
 				}
 				else
                 {
@@ -166,13 +190,33 @@ namespace VRCDeveloperTool
 				using (new EditorGUILayout.HorizontalScope())
                 {
 					EditorGUILayout.LabelField("NONE");
-					if (GUILayout.Button("Reset"))
+					if (GUILayout.Button("Left"))
                     {
-						playingType = PlayingType.NONE;
+						if (playingType == PlayingType.OVERRIDE &&
+							playingHand == PlayingHand.BOTH)
+                        {
+							playingHand = PlayingHand.RIGHT;
+						}
+                        else
+                        {
+							playingType = PlayingType.NONE;
+						}
 						PlayOverride("Left", 0, animator);
+					}
+					if (GUILayout.Button("Right"))
+					{
+						if (playingType == PlayingType.OVERRIDE &&
+							playingHand == PlayingHand.BOTH)
+						{
+							playingHand = PlayingHand.LEFT;
+						}
+						else
+						{
+							playingType = PlayingType.NONE;
+						}
 						PlayOverride("Right", 0, animator);
 					}
-                }
+				}
 				for (int overrideNumber = 0; overrideNumber < OVERRIDES.Length; overrideNumber++)
 				{
 					AnimationClip overrideAnimation = null;
@@ -197,12 +241,28 @@ namespace VRCDeveloperTool
 						if (GUILayout.Button("Left"))
 						{
 							playingType = PlayingType.OVERRIDE;
+							if (playingHand == PlayingHand.RIGHT)
+                            {
+								playingHand = PlayingHand.BOTH;
+                            }
+                            else
+                            {
+								playingHand = PlayingHand.LEFT;
+                            }
 							PlayOverride("Left", overrideNumber, animator);
 						}
 
 						if (GUILayout.Button("Right"))
 						{
 							playingType = PlayingType.OVERRIDE;
+							if (playingHand == PlayingHand.LEFT)
+							{
+								playingHand = PlayingHand.BOTH;
+							}
+							else
+							{
+								playingHand = PlayingHand.RIGHT;
+							}
 							PlayOverride("Right", overrideNumber, animator);
 						}
 					}
@@ -235,6 +295,7 @@ namespace VRCDeveloperTool
 							if (animator.GetInteger($"Emote") != 0) return;
 
 							playingType = PlayingType.EMOTE;
+							playingHand = PlayingHand.NONE;
 							PlayEmote(emoteNumber + 1, animator, emoteAnimation);
 						}
 					}
