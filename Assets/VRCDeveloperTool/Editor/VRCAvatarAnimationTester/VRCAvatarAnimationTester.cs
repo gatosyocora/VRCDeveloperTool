@@ -249,7 +249,8 @@ namespace VRCDeveloperTool
 						if (GUILayout.Button("Left"))
 						{
 							playingType = PlayingType.OVERRIDE;
-							if (playingHand == PlayingHand.RIGHT)
+							if (playingHand == PlayingHand.RIGHT ||
+								playingHand == PlayingHand.BOTH)
                             {
 								playingHand = PlayingHand.BOTH;
                             }
@@ -263,7 +264,8 @@ namespace VRCDeveloperTool
 						if (GUILayout.Button("Right"))
 						{
 							playingType = PlayingType.OVERRIDE;
-							if (playingHand == PlayingHand.LEFT)
+							if (playingHand == PlayingHand.LEFT ||
+								playingHand == PlayingHand.BOTH)
 							{
 								playingHand = PlayingHand.BOTH;
 							}
