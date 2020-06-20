@@ -11,6 +11,7 @@ namespace VRCDeveloperTool
 {
     public class PoseConstraint : MonoBehaviour
 	{
+		[Serializable]
 		public class BoneInfo
 		{
 			public Transform Transform { get; set; }
