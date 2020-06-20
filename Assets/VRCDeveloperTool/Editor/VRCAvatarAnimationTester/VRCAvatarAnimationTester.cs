@@ -131,6 +131,23 @@ namespace VRCDeveloperTool
                 }
 			}
 #endif
+			EditorGUILayout.Space();
+
+			using (new EditorGUILayout.HorizontalScope())
+			{
+				if (GUILayout.Button("Scene View"))
+				{
+					EditorApplication.ExecuteMenuItem("Window/General/Scene");
+				}
+				if (GUILayout.Button("Game View"))
+				{
+					EditorApplication.ExecuteMenuItem("Window/General/Game");
+				}
+			}
+
+			GUILayout.Space(15);
+
+			EditorGUILayout.LabelField("Testing", EditorStyles.boldLabel);
 			using (new EditorGUILayout.HorizontalScope())
             {
 				using (new EditorGUI.DisabledGroupScope(EditorApplication.isPlayingOrWillChangePlaymode || avatar == null))
@@ -165,20 +182,6 @@ namespace VRCDeveloperTool
 			if (avatar != null && animator != null && controller != null)
 			{
 				EditorGUILayout.HelpBox("Playを選択するとテストが実行できます", MessageType.Info);
-			}
-
-			EditorGUILayout.Space();
-
-			using (new EditorGUILayout.HorizontalScope())
-			{
-				if (GUILayout.Button("Scene View"))
-				{
-					EditorApplication.ExecuteMenuItem("Window/General/Scene");
-				}
-				if (GUILayout.Button("Game View"))
-				{
-					EditorApplication.ExecuteMenuItem("Window/General/Game");
-				}
 			}
 
 			EditorGUILayout.Space();
