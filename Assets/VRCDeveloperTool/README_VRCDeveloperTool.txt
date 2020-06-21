@@ -315,6 +315,27 @@ ver1.0 本ツールを作成
 
 -----------------------------------------------------
 
+〇VRCAvatarTester(ver1.0)
+VRChatのアバターのAnimationOverrideやEmoteAnimationをUnity上で確認できます。
+
+Unityのメニュー(FileやVRChatSDK等が並んでいるところ)にある「VRCDeveloperTool>VRCAvatarTester」から以下の機能を持つウィンドウが開けます
+
+[使い方]
+1. 「Avatar」にテストしたいアバターを設定します
+2. 「Play」を選択し, Unityを再生状態にします
+3. 「Scene」を選択し, SceneViewに切り替えます
+4.	OverridesやEmotesにあるボタンを選択するとそれぞれのAnimationが実行されます
+
+AnimationOverrideの表情アニメーション実行時に
+発生するしゃがんだ状態を回避するためにPoseConstrainterを使っています。
+EditorOnlyタグを設定しているのでVRChatにアップロードはされません
+
+・更新履歴
+ver1.0 本ツールを作成
+
+-----------------------------------------------------
+
+
 ●利用規約
 本規約は本商品に含まれるすべてのスクリプトやファイルに共通で適用されるものとする。
 本商品を使用したことによって生じた問題に関してはgatosyocoraは一切の責任を負わない。
