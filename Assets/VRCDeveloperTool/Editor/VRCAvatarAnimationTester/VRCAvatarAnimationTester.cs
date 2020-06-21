@@ -19,10 +19,13 @@ namespace VRCDeveloperTool
     public class VRCAvatarAnimationTester : EditorWindow
     {
 #if VRC_SDK_VRCSDK2
-		public VRC_AvatarDescriptor avatar;
+		private VRC_AvatarDescriptor avatar;
 #endif
+		[SerializeField]
 		private Animator animator;
+		[SerializeField]
 		private AnimatorOverrideController controller;
+		[SerializeField]
 		private RuntimeAnimatorController defaultController;
 
 		public enum PlayingType 
@@ -46,8 +49,9 @@ namespace VRCDeveloperTool
 			"EMOTE1", "EMOTE2", "EMOTE3", "EMOTE4", "EMOTE5", "EMOTE6", "EMOTE7", "EMOTE8"
 		};
 
-		public GameObject poseConstraintObj;
-		public PoseConstraint poseConstraint;
+		[SerializeField]
+		private GameObject poseConstraintObj;
+		private PoseConstraint poseConstraint;
 
 		[MenuItem("VRCDeveloperTool/VRCAvatarAnimationTester")]
 		public static void Open()
