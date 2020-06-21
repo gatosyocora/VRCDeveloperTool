@@ -16,7 +16,7 @@ using VRCSDK2;
 
 namespace VRCDeveloperTool
 {
-    public class VRCAvatarAnimationTester : EditorWindow
+    public class VRCAvatarTester : EditorWindow
     {
 #if VRC_SDK_VRCSDK2
 		private VRC_AvatarDescriptor avatar;
@@ -53,10 +53,10 @@ namespace VRCDeveloperTool
 		private GameObject poseConstraintObj;
 		private PoseConstraint poseConstraint;
 
-		[MenuItem("VRCDeveloperTool/VRCAvatarAnimationTester")]
+		[MenuItem("VRCDeveloperTool/VRCAvatarTester")]
 		public static void Open()
 		{
-			GetWindow<VRCAvatarAnimationTester>("VRCAvatarAnimationTester");
+			GetWindow<VRCAvatarTester>(nameof(VRCAvatarTester));
 		}
 
         private void Update()
