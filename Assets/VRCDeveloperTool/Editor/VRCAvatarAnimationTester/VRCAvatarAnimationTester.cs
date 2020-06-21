@@ -141,6 +141,7 @@ namespace VRCDeveloperTool
 			}
 			EditorGUILayout.Space();
 
+			EditorGUILayout.LabelField("Camera", EditorStyles.boldLabel);
 			using (new EditorGUILayout.HorizontalScope())
 			{
 				if (GUILayout.Button("Scene View"))
@@ -151,6 +152,11 @@ namespace VRCDeveloperTool
 				{
 					EditorApplication.ExecuteMenuItem("Window/General/Game");
 				}
+			}
+			if (GUILayout.Button("Avatar"))
+            {
+				var sceneView = SceneView.lastActiveSceneView;
+				sceneView.camera.transform.position = animator.transform.position;
 			}
 
 			GUILayout.Space(15);
@@ -205,85 +211,88 @@ namespace VRCDeveloperTool
 				EditorGUILayout.Space();
 
 				EditorGUILayout.LabelField("AnimationOverrides", EditorStyles.boldLabel);
-				using (new EditorGUILayout.HorizontalScope())
+				using (new EditorGUI.IndentLevelScope())
                 {
-					EditorGUILayout.LabelField("NONE");
-					if (GUILayout.Button("Left"))
-                    {
-						if (playingType == PlayingType.OVERRIDE &&
-							playingHand == PlayingHand.BOTH)
-                        {
-							playingHand = PlayingHand.RIGHT;
-						}
-                        else
-                        {
-							playingType = PlayingType.NONE;
-						}
-						PlayOverride("Left", 0, animator);
-					}
-					if (GUILayout.Button("Right"))
-					{
-						if (playingType == PlayingType.OVERRIDE &&
-							playingHand == PlayingHand.BOTH)
-						{
-							playingHand = PlayingHand.LEFT;
-						}
-						else
-						{
-							playingType = PlayingType.NONE;
-						}
-						PlayOverride("Right", 0, animator);
-					}
-				}
-				for (int overrideNumber = 0; overrideNumber < OVERRIDES.Length; overrideNumber++)
-				{
-					AnimationClip overrideAnimation = null;
-					string overrideName = string.Empty;
-
-					if (controller != null)
-					{
-						overrideAnimation = controller[OVERRIDES[overrideNumber]];
-
-						if (overrideAnimation.name != OVERRIDES[overrideNumber])
-						{
-							overrideName = $"({overrideAnimation.name})";
-						}
-					}
-
-					// AnimationClipとOVERRIDES[overrideNumber]の名前が同じであれば未設定
-					using (new EditorGUI.DisabledGroupScope(controller == null || overrideAnimation.name == OVERRIDES[overrideNumber]))
 					using (new EditorGUILayout.HorizontalScope())
 					{
-						EditorGUILayout.LabelField($"{OVERRIDES[overrideNumber]}{overrideName}");
-
+						EditorGUILayout.LabelField("NONE");
 						if (GUILayout.Button("Left"))
 						{
-							playingType = PlayingType.OVERRIDE;
-							if (playingHand == PlayingHand.RIGHT ||
+							if (playingType == PlayingType.OVERRIDE &&
 								playingHand == PlayingHand.BOTH)
-                            {
-								playingHand = PlayingHand.BOTH;
-                            }
-                            else
-                            {
-								playingHand = PlayingHand.LEFT;
-                            }
-							PlayOverride("Left", overrideNumber, animator);
-						}
-
-						if (GUILayout.Button("Right"))
-						{
-							playingType = PlayingType.OVERRIDE;
-							if (playingHand == PlayingHand.LEFT ||
-								playingHand == PlayingHand.BOTH)
-							{
-								playingHand = PlayingHand.BOTH;
-							}
-							else
 							{
 								playingHand = PlayingHand.RIGHT;
 							}
-							PlayOverride("Right", overrideNumber, animator);
+							else
+							{
+								playingType = PlayingType.NONE;
+							}
+							PlayOverride("Left", 0, animator);
+						}
+						if (GUILayout.Button("Right"))
+						{
+							if (playingType == PlayingType.OVERRIDE &&
+								playingHand == PlayingHand.BOTH)
+							{
+								playingHand = PlayingHand.LEFT;
+							}
+							else
+							{
+								playingType = PlayingType.NONE;
+							}
+							PlayOverride("Right", 0, animator);
+						}
+					}
+					for (int overrideNumber = 0; overrideNumber < OVERRIDES.Length; overrideNumber++)
+					{
+						AnimationClip overrideAnimation = null;
+						string overrideName = string.Empty;
+
+						if (controller != null)
+						{
+							overrideAnimation = controller[OVERRIDES[overrideNumber]];
+
+							if (overrideAnimation.name != OVERRIDES[overrideNumber])
+							{
+								overrideName = $"({overrideAnimation.name})";
+							}
+						}
+
+						// AnimationClipとOVERRIDES[overrideNumber]の名前が同じであれば未設定
+						using (new EditorGUI.DisabledGroupScope(controller == null || overrideAnimation.name == OVERRIDES[overrideNumber]))
+						using (new EditorGUILayout.HorizontalScope())
+						{
+							EditorGUILayout.LabelField(OVERRIDES[overrideNumber], overrideName);
+
+							if (GUILayout.Button("Left"))
+							{
+								playingType = PlayingType.OVERRIDE;
+								if (playingHand == PlayingHand.RIGHT ||
+									playingHand == PlayingHand.BOTH)
+								{
+									playingHand = PlayingHand.BOTH;
+								}
+								else
+								{
+									playingHand = PlayingHand.LEFT;
+								}
+								PlayOverride("Left", overrideNumber, animator);
+							}
+
+							if (GUILayout.Button("Right"))
+							{
+								playingType = PlayingType.OVERRIDE;
+								if (playingHand == PlayingHand.LEFT ||
+									playingHand == PlayingHand.BOTH)
+								{
+									playingHand = PlayingHand.BOTH;
+								}
+								else
+								{
+									playingHand = PlayingHand.RIGHT;
+								}
+								PlayOverride("Right", overrideNumber, animator);
+							}
 						}
 					}
 				}
@@ -294,29 +303,32 @@ namespace VRCDeveloperTool
 			using (new EditorGUI.DisabledGroupScope(!EditorApplication.isPlayingOrWillChangePlaymode))
 			{
 				EditorGUILayout.LabelField("Emotes", EditorStyles.boldLabel);
-				for (int emoteNumber = 0; emoteNumber < EMOTES.Length; emoteNumber++)
-				{
-					AnimationClip emoteAnimation = null;
-					string buttonText = EMOTES[emoteNumber];
-					if (controller != null)
-                    {
-						emoteAnimation = controller[EMOTES[emoteNumber]];
-						buttonText = emoteAnimation.name;
-					}
-					
-					// 取得できるAnimationClipの名前が"EMOTE*"だったら設定されていない
-					using (new EditorGUI.DisabledGroupScope(emoteAnimation == null || emoteAnimation.name == EMOTES[emoteNumber]))
-					using (new EditorGUILayout.HorizontalScope())
+				using (new EditorGUI.IndentLevelScope())
+                {
+					for (int emoteNumber = 0; emoteNumber < EMOTES.Length; emoteNumber++)
 					{
-						EditorGUILayout.LabelField(EMOTES[emoteNumber]);
-
-						if (GUILayout.Button(buttonText) && emoteAnimation != null)
+						AnimationClip emoteAnimation = null;
+						string buttonText = EMOTES[emoteNumber];
+						if (controller != null)
 						{
-							if (animator.GetInteger($"Emote") != 0) return;
+							emoteAnimation = controller[EMOTES[emoteNumber]];
+							buttonText = emoteAnimation.name;
+						}
 
-							playingType = PlayingType.EMOTE;
-							playingHand = PlayingHand.NONE;
-							PlayEmote(emoteNumber + 1, animator, emoteAnimation);
+						// 取得できるAnimationClipの名前が"EMOTE*"だったら設定されていない
+						using (new EditorGUI.DisabledGroupScope(emoteAnimation == null || emoteAnimation.name == EMOTES[emoteNumber]))
+						using (new EditorGUILayout.HorizontalScope())
+						{
+							EditorGUILayout.LabelField(EMOTES[emoteNumber]);
+
+							if (GUILayout.Button(buttonText) && emoteAnimation != null)
+							{
+								if (animator.GetInteger($"Emote") != 0) return;
+
+								playingType = PlayingType.EMOTE;
+								playingHand = PlayingHand.NONE;
+								PlayEmote(emoteNumber + 1, animator, emoteAnimation);
+							}
 						}
 					}
 				}
