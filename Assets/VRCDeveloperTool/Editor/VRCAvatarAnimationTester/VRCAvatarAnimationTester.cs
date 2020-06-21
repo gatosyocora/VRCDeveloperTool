@@ -61,6 +61,7 @@ namespace VRCDeveloperTool
 			// 再生中
 			if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
+				// 毎回取得しないとActiveへの変更がなぜか適用されない
 				poseConstraint = poseConstraintObj.GetComponent<PoseConstraint>();
 
 				animator.runtimeAnimatorController = controller;
@@ -335,6 +336,7 @@ namespace VRCDeveloperTool
 			int waitMilliSecond = (int)(animationClip.length * 1000);
 			if (animationClip == null) waitMilliSecond = 1000;
 			animator.SetInteger($"Emote", emoteNumber);
+			// EmoteAnimationの実行が終わるまで待つ必要がある
 			await Task.Delay(waitMilliSecond);
 			animator.SetInteger($"Emote", 0);
         }
