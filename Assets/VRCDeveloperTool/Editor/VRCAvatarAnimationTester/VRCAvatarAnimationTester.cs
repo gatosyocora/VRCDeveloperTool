@@ -57,8 +57,9 @@ namespace VRCDeveloperTool
 
         private void Update()
         {
+#if VRC_SDK_VRCSDK2
 			// 再生中
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
+			if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
 				poseConstraint = poseConstraintObj.GetComponent<PoseConstraint>();
 
@@ -113,7 +114,8 @@ namespace VRCDeveloperTool
 					animator.SetLayerWeight(animator.GetLayerIndex("HandRight"), 0);
 				}
 			}
-        }
+#endif
+		}
 
         private void OnGUI()
 		{
@@ -136,7 +138,6 @@ namespace VRCDeveloperTool
                     }
                 }
 			}
-#endif
 			EditorGUILayout.Space();
 
 			using (new EditorGUILayout.HorizontalScope())
@@ -319,6 +320,9 @@ namespace VRCDeveloperTool
 					}
 				}
 			}
+#else
+			EditorGUILayout.HelpBox("使用するにはVRCSDK2がプロジェクトにインポートされている必要があります", MessageType.Error);
+#endif
 		}
 
 		private void PlayOverride(string hand, int overrideNumber, Animator animator)
