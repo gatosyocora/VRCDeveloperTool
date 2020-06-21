@@ -38,6 +38,7 @@ namespace VRCDeveloperTool
 		public void UpdateBoneInfo(Animator animator)
         {
 			this.animator = animator;
+			EditorUtility.SetDirty(this);
 			boneList = GetBoneInfo(animator);
         }
 
