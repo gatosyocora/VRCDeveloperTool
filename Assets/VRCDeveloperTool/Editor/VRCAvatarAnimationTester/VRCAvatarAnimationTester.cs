@@ -157,6 +157,7 @@ namespace VRCDeveloperTool
 					EditorApplication.ExecuteMenuItem("Window/General/Game");
 				}
 			}
+			/*
 			using (new EditorGUI.DisabledGroupScope(animator is null))
             {
 				if (GUILayout.Button("Focus on Avatar"))
@@ -165,6 +166,7 @@ namespace VRCDeveloperTool
 					sceneViewCamera.transform.position = animator.transform.position;
 				}
 			}
+			*/
 
 			GUILayout.Space(15);
 
