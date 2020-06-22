@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 namespace VRCDeveloperTool 
@@ -38,7 +36,9 @@ namespace VRCDeveloperTool
 		public void UpdateBoneInfo(Animator animator)
         {
 			this.animator = animator;
+#if UNITY_EDITOR
 			EditorUtility.SetDirty(this);
+#endif
 			boneList = GetBoneInfo(animator);
         }
 
